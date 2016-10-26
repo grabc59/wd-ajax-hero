@@ -96,18 +96,23 @@
                 if ($xhr.status !== 200) {
                     return;
                 }
-                for (var i in data.Search) {
+                $(data.Search).each(function(){
                     var movie = {};
-                    movie.id = data.Search[i].imdbID;
-                    movie.poster = data.Search[i].Poster;
-                    movie.title = data.Search[i].Title;
-                    movie.year = data.Search[i].Year;
-                    var $xhrID = $.getJSON('http://www.omdbapi.com/?i=' + movie.id + '&plot=full', function(data2) {
+                    movie.id = this.imdbID;
+                    movie.poster = this.Poster;
+                    movie.title = this.Title;
+                    movie.year = this.Year;
+
+                    var $xhrID = $.getJSON('http://www.omdbapi.com/?i=' + movie.id + '&plot=full');
+                    $xhrID.done(function(data2) {
+                      if ($xhr.status !== 200) {
+                          return;
+                      }
                         movie.plot = data2.Plot;
+                        movies.push(movie);
+                        renderMovies();
                     })
-                    movies.push(movie);
-                }
-                renderMovies();
+                })
             })
         }
     })
