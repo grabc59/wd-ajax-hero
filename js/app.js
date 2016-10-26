@@ -96,33 +96,21 @@
                 if ($xhr.status !== 200) {
                     return;
                 }
-                for (let i in data.Search) {
-                  var $xhrID = $.getJSON('http://www.omdbapi.com/?i=' +  data.Search[i].imdbID + '&plot=full');
-                  $xhrID.done(function(data2) {
+                for (var i in data.Search) {
                     var movie = {};
                     movie.id = data.Search[i].imdbID;
                     movie.poster = data.Search[i].Poster;
                     movie.title = data.Search[i].Title;
                     movie.year = data.Search[i].Year;
-                    movie.plot = data2.Plot;
+                    var $xhrID = $.getJSON('http://www.omdbapi.com/?i=' + movie.id + '&plot=full', function(data2) {
+                        movie.plot = data2.Plot;
+                    })
                     movies.push(movie);
-                  });
                 }
-                console.log("render");
                 renderMovies();
-              });
-            // function updateFullPlot() {
-            //   for (let i = 0; i < movies.length; i++) {
-            //     var $xhrID = $.getJSON('http://www.omdbapi.com/?i=' +  movies[i].id + '&plot=full');
-            //     $xhrID.done(function(data2) {
-            //       movies[i].plot = data2.Plot;
-            //       movies.push(movie);
-            //       renderMovies();
-            //     })
-            //   }
-            // }
+            })
         }
-    });
+    })
 
     // Clear previous search on click
     $('#search').on('click', function(event) {
