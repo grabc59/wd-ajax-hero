@@ -59,20 +59,6 @@
     };
 
     // ADD YOUR CODE HERE
-    // Get the full plot of each movie result. This must be done in the same scope that the "modal" is created (movie.plot), and must be passed the movie's ID.
-    // function getFullPlot (imdbID) {
-    //   // console.log(movieID); // for example, tt0118583
-    //   var $fullPlotXHR = $.getJSON('http://www.omdbapi.com/?i=' + imdbID + '&plot=full');
-    //   $fullPlotXHR.done(function(imdbID) {
-    //     // console.log(imdbID.Plot);
-    //       // if ($fullPlotXHR.status !== 200) {
-    //       //     // return;
-    //       // } else {
-    //       // console.log("hit");
-    //       return 5;
-    //       // }
-    //   })
-    // }
 
     //Listen for search submission, and form validation
     $('form').submit(function(event) {
@@ -96,7 +82,7 @@
                 if ($xhr.status !== 200) {
                     return;
                 }
-                $(data.Search).each(function(){
+                $(data.Search).each(function() {
                     var movie = {};
                     movie.id = this.imdbID;
                     movie.poster = this.Poster;
@@ -105,9 +91,9 @@
 
                     var $xhrID = $.getJSON('http://www.omdbapi.com/?i=' + movie.id + '&plot=full');
                     $xhrID.done(function(data2) {
-                      if ($xhr.status !== 200) {
-                          return;
-                      }
+                        if ($xhr.status !== 200) {
+                            return;
+                        }
                         movie.plot = data2.Plot;
                         movies.push(movie);
                         renderMovies();
@@ -116,11 +102,4 @@
             })
         }
     })
-
-    // Clear previous search on click
-    $('#search').on('click', function(event) {
-        $('#search').val("");
-    });
-
-
 })();
